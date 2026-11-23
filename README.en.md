@@ -24,7 +24,8 @@
   <a href="#resources">Files and tools</a> &nbsp;·&nbsp;
   <a href="#surveys">Surveys</a> &nbsp;·&nbsp;
   <a href="#governance">Administration</a> &nbsp;·&nbsp;
-  <a href="#scenarios">Use cases</a>
+  <a href="#scenarios">Use cases</a> &nbsp;·&nbsp;
+  <a href="#author">Author note</a>
 </p>
 
 ---
@@ -130,5 +131,17 @@ Manage users and roles, and give authorized team members access to administrativ
 2. **Assign the follow-up.** Create tasks with the relevant files, name the owners and collaborators, and set deadlines. Colleagues confirm the handoff from their mobile inbox.
 3. **Collect feedback.** Clients open a shared survey link to submit their feedback or attach supporting material. The team reviews the responses and assigns any new follow-up.
 4. **Report and retain the outcome.** Record what the team resolved and what remains open in the weekly report. At the next review, the team can pick up from the same project record.
+
+<a name="author"></a>
+
+## A note from the author
+
+I built this system for my department while interning at a trust company in Shanghai in the summer of 2026, after my first year of university. The immediate problem was practical: project records lived in spreadsheets, assignments in messages, and progress updates came together only when it was time to write the weekly report. I wanted a shared workspace where colleagues could see the history of a piece of work and know whom to ask about the next step. The internal version is now in production and used by the department in its day-to-day work.
+
+This repository is the open-source edition adapted from that internal system. Before publishing it, I removed internal data, credentials, company-specific branding, and features that were unsuitable for public release. The online demo and screenshots use fictional data. I hope Department Hub gives teams with similar needs a starting point they can learn from and adapt.
+
+## License
+
+This repository is licensed under the [MIT License](./LICENSE).
 
 <p align="center"><strong><a href="https://gco.jimmyhuang.cn/">Open GCO Link ↗</a></strong> &nbsp;·&nbsp; <a href="./README.md">简体中文</a></p>
