@@ -55,14 +55,14 @@ export default function Login() {
   }, []);
 
   useEffect(() => {
-    if (mode !== 'login' || !['127.0.0.1', 'localhost', '[::1]'].includes(window.location.hostname)) return;
+    if (mode !== 'login') return;
     let active = true;
-    api.get<{ enabled: boolean }>('/demo-login').then(({ enabled }) => {
+    api.get<{ enabled: boolean; identifier?: string; password?: string }>('/demo-login').then(({ enabled, identifier, password }) => {
       if (!active || loginEdited.current || !enabled) return;
       demoPrefilled.current = true;
       setRememberLogin(false);
-      setIdentifier(DEMO_IDENTIFIER);
-      setPassword(DEMO_PASSWORD);
+      setIdentifier(identifier ?? DEMO_IDENTIFIER);
+      setPassword(password ?? DEMO_PASSWORD);
     }).catch(() => {});
     return () => { active = false; };
   }, [mode]);

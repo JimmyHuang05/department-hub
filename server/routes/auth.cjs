@@ -17,6 +17,8 @@ const {
 } = require('../services/sessions.cjs');
 const { notifySessionRevoked } = require('../ws/hub.cjs');
 
+const { PUBLIC_DEMO_ID, getPublicDemoCredentials } = require('../services/publicDemo.cjs');
+
 const router = express.Router();
 const BUSINESS_ROLES = ['intern', 'trust_manager', 'developer', 'admin'];
 const SYSTEM_ROLES = ['user', 'admin'];
@@ -139,7 +141,13 @@ function publicUser(row) {
   };
 }
 
-router.post('/login', loginIpLimiter, loginAccountLimiter, async (req, res) => {
+function limitLoginAccount(req, res, next) {
+  const demo = getPublicDemoCredentials();
+  if (demo && req.body?.username === demo.identifier && req.body?.password === demo.password) return next();
+  return loginAccountLimiter(req, res, next);
+}
+
+router.post('/login', loginIpLimiter, limitLoginAccount, async (req, res) => {
   const { username, password, deviceId, deviceType, deviceName, force } = req.body;
   if (!username || !password) {
     return res.status(400).json({ error: 'UID/姓名和密码不能为空' });
@@ -160,7 +168,11 @@ router.post('/login', loginIpLimiter, loginAccountLimiter, async (req, res) => {
     );
   }
 
-  if (!user || !bcrypt.compareSync(password, user.password)) {
+  const publicDemo = user?.id === PUBLIC_DEMO_ID ? getPublicDemoCredentials() : null;
+  const passwordValid = user?.id === PUBLIC_DEMO_ID
+    ? typeof password === 'string' && password === publicDemo?.password
+    : Boolean(user && bcrypt.compareSync(password, user.password));
+  if (!passwordValid) {
     return res.status(401).json({ error: 'UID/姓名或密码错误' });
   }
   if (user.status === 'disabled') {
@@ -171,6 +183,10 @@ router.post('/login', loginIpLimiter, loginAccountLimiter, async (req, res) => {
   }
 
   user.role = normalizeRole(user.role);
+  if (publicDemo) {
+    const token = generateToken(user, { expiresIn: '2h' });
+    return res.json({ token, user: publicUser(user) });
+  }
   const normalizedDeviceType = normalizeDeviceType(deviceType);
   const normalizedDeviceId = String(deviceId || '').trim() || `unknown-${normalizedDeviceType}`;
   const normalizedDeviceName = String(deviceName || '').trim() || (normalizedDeviceType === 'mobile' ? '移动端设备' : '电脑端设备');
@@ -288,6 +304,7 @@ router.post('/register', authMiddleware, requireRole('admin'), async (req, res) 
 });
 
 router.post('/logout', authMiddleware, async (req, res) => {
+  if (req.user.id === PUBLIC_DEMO_ID) return res.json({ success: true });
   if (req.user.sid) {
     revokeSession(req.user.sid, 'logout');
   } else {

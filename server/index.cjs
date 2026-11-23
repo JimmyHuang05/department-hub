@@ -32,7 +32,10 @@ const { realtimeMutationMiddleware } = require('./middleware/realtimeMutation.cj
 const { ensureRealtimeSchema } = require('./services/realtimeEvents.cjs');
 const LEGACY_HTML_TOOLS_DIR = path.join(__dirname, '..', 'data', 'tools', 'html');
 
+const { initializePublicDemo, getPublicDemoCredentials } = require('./services/publicDemo.cjs');
+
 const app = express();
+if (process.env.IBD_TRUST_PROXY === 'loopback') app.set('trust proxy', 'loopback');
 const PORT = process.env.PORT || 3000;
 const SERVER_HOST = String(process.env.IBD_HOST || '0.0.0.0').trim() || '0.0.0.0';
 const demoLoginEnabled = process.env.NODE_ENV !== 'production'
@@ -108,7 +111,11 @@ app.use('/api', (req, res, next) => {
 });
 
 app.get('/api/demo-login', (req, res) => {
-  res.set('Cache-Control', 'no-store').json({ enabled: demoLoginEnabled });
+  const publicDemo = getPublicDemoCredentials();
+  res.set('Cache-Control', 'no-store').json({
+    enabled: Boolean(publicDemo || demoLoginEnabled),
+    ...(publicDemo || {}),
+  });
 });
 
 app.get('/api/demo-data', authMiddleware, async (req, res) => {
@@ -369,6 +376,7 @@ wss.on('connection', handleConnection);
 // 鍚姩
 async function start() {
   const db = await getDb();
+  initializePublicDemo(db);
   ensureRealtimeSchema(db);
   const relationMigration = migrateProjectRelations(db);
   if (relationMigration.entriesLinked || relationMigration.filesLinked || relationMigration.snapshotsLinked) {

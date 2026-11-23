@@ -4,6 +4,7 @@
  */
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../middleware/auth.cjs');
+const { PUBLIC_DEMO_ID, getPublicDemoCredentials } = require('../services/publicDemo.cjs');
 const { isSessionActive, touchSession } = require('../services/sessions.cjs');
 const { canReceiveEvent } = require('../services/realtimeEvents.cjs');
 
@@ -156,6 +157,10 @@ function handleConnection(ws) {
       if (msg.type === 'auth') {
         try {
           const decoded = jwt.verify(msg.token, JWT_SECRET);
+          if (decoded.id === PUBLIC_DEMO_ID && !getPublicDemoCredentials()) {
+            ws.close();
+            return;
+          }
           if (decoded.sid && !isSessionActive(decoded.sid)) {
             send({ type: 'auth-error', code: 'SESSION_REVOKED', error: '你的账号已在另一台设备登录，本设备已下线。' });
             ws.close();
@@ -204,6 +209,11 @@ function handleConnection(ws) {
       if (msg.type === 'leave') {
         releaseClientLocks();
         leaveRoom();
+        return;
+      }
+
+      if (ws.userId === PUBLIC_DEMO_ID) {
+        if (msg.type === 'editing-lock') send({ type: 'editing-lock-result', requestId: msg.requestId || '', granted: false });
         return;
       }
 

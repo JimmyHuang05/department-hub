@@ -93,7 +93,8 @@ test('login, registration and uploads have rate limits', () => {
   const authSource = fs.readFileSync(path.join(root, 'server/routes/auth.cjs'), 'utf8');
   const cloudSource = fs.readFileSync(path.join(root, 'server/routes/clouddrive.cjs'), 'utf8');
   const toolSource = fs.readFileSync(path.join(root, 'server/routes/tools.cjs'), 'utf8');
-  assert.match(authSource, /loginIpLimiter, loginAccountLimiter/);
+  assert.match(authSource, /loginIpLimiter, limitLoginAccount/);
+  assert.match(authSource, /return loginAccountLimiter\(req, res, next\)/);
   assert.match(authSource, /selfRegistrationLimiter/);
   assert.match(cloudSource, /uploadRateLimiter/);
   assert.match(toolSource, /uploadRateLimiter/);
@@ -105,4 +106,15 @@ test('production CORS requires an explicit origin allow-list', () => {
   assert.match(source, /process\.env\.CORS_ORIGINS/);
   assert.match(source, /process\.env\.NODE_ENV !== 'production'/);
   assert.doesNotMatch(source, /app\.use\(cors\(\)\)/);
+});
+
+test('public demo visitors can browse and preview reports but cannot modify shared data or access API keys', () => {
+  const { publicDemoAllowsRequest } = require('../server/services/publicDemo.cjs');
+  const allowed = (method, originalUrl) => publicDemoAllowsRequest({ method, originalUrl });
+  assert.equal(allowed('GET', '/api/tasks'), true);
+  assert.equal(allowed('POST', '/api/weekly-reports/preview'), true);
+  assert.equal(allowed('POST', '/api/auth/logout'), true);
+  assert.equal(allowed('POST', '/api/products'), false);
+  assert.equal(allowed('PUT', '/api/auth/password'), false);
+  assert.equal(allowed('GET', '/api/api-keys/mine/?x=1'), false);
 });

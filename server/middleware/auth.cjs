@@ -1,7 +1,9 @@
-﻿const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const { getDbSync } = require('../db.cjs');
 const { isSessionActive, touchSession, getSession } = require('../services/sessions.cjs');
 const { loadJwtSecret } = require('../services/securityConfig.cjs');
+
+const { PUBLIC_DEMO_ID, getPublicDemoCredentials, publicDemoAllowsRequest } = require('../services/publicDemo.cjs');
 
 const JWT_SECRET = loadJwtSecret();
 const VALID_ROLES = ['user', 'admin'];
@@ -70,6 +72,14 @@ function authMiddleware(req, res, next) {
       decoded.display_name = userInfo.display_name;
     }
 
+    if (decoded.id === PUBLIC_DEMO_ID) {
+      if (!getPublicDemoCredentials() || !publicDemoAllowsRequest(req)) {
+        return res.status(403).json({ error: '演示账号仅供浏览' });
+      }
+      decoded.role = 'user';
+      decoded.business_role = 'trust_manager';
+    }
+
     req.user = decoded;
     next();
   } catch {
@@ -121,7 +131,7 @@ function generateToken(user, session = {}) {
       deviceType: session.deviceType,
     },
     JWT_SECRET,
-    { expiresIn: '7d' }
+    { expiresIn: session.expiresIn || '7d' }
   );
 }
 
