@@ -1,0 +1,14 @@
+.git
+node_modules
+dist
+data
+demo-data*
+logs
+handoff
+.codex_work
+.env*
+**/*.db*
+**/*.sqlite*
+**/*.pem
+**/*.key
+**/worklog-import*.json

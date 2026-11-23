@@ -1,0 +1,201 @@
+.project-fortune-sheet {
+  color: var(--app-text);
+  background: var(--app-panel);
+}
+
+.project-fortune-sheet .fortune-container {
+  font-family: inherit;
+  color: var(--app-text);
+  background: var(--app-panel);
+}
+
+/* Keep FortuneSheet's coordinate layers in layout: its selection engine uses
+   their dimensions when positioning overlays. Only remove the grey chrome. */
+.project-fortune-sheet .fortune-col-header-wrap,
+.project-fortune-sheet .fortune-col-header,
+.project-fortune-sheet .fortune-row-header,
+.project-fortune-sheet .fortune-left-top {
+  color: var(--app-muted);
+  background: var(--app-panel) !important;
+}
+
+.project-fortune-sheet .fortune-toolbar {
+  min-height: 42px;
+  padding: 4px 116px 4px 10px;
+  border-color: var(--app-border);
+  background: var(--app-panel);
+}
+
+.project-fortune-sheet__pin-actions {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  z-index: 30;
+  display: flex;
+  height: 32px;
+  overflow: hidden;
+  border: 1px solid var(--app-border);
+  background: var(--app-panel);
+  box-shadow: var(--app-panel-shadow);
+}
+
+.project-fortune-sheet__pin-actions button {
+  display: inline-flex;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 0;
+  color: var(--app-muted);
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.project-fortune-sheet__pin-actions button:hover {
+  color: var(--app-primary);
+  background: var(--app-primary-soft);
+}
+
+.project-fortune-sheet__pin-actions .project-fortune-sheet__unpin {
+  width: 32px;
+  padding: 0;
+  border-left: 1px solid var(--app-border);
+}
+
+.project-fortune-sheet .fortune-toolbar-divider,
+.project-fortune-sheet .fortune-toolbar-menu-divider,
+.project-fortune-sheet .fortune-context-menu-divider {
+  background: var(--app-border);
+}
+
+.project-fortune-sheet .fortune-toolbar-button,
+.project-fortune-sheet .fortune-toolbar-combo {
+  margin: 1px 2px;
+  padding: 5px;
+  border-radius: 6px;
+  color: var(--app-muted);
+}
+
+.project-fortune-sheet .fortune-toolbar-button:hover,
+.project-fortune-sheet .fortune-toolbar-combo:hover,
+.project-fortune-sheet .fortune-toolbar-combo-arrow:hover {
+  color: var(--app-primary);
+  background: var(--app-primary-soft);
+}
+
+.project-fortune-sheet .fortune-toolbar-button:active,
+.project-fortune-sheet .fortune-toolbar-combo:active {
+  background: color-mix(in srgb, var(--app-primary) 14%, var(--app-panel));
+}
+
+.project-fortune-sheet .fortune-toolbar-select,
+.project-fortune-sheet .fortune-toolbar-color-picker,
+.project-fortune-sheet .fortune-toolbar-combo-popup {
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  color: var(--app-text);
+  background: var(--app-panel);
+  box-shadow: 0 12px 30px rgb(15 23 42 / 14%);
+}
+
+.project-fortune-sheet .fortune-toolbar-select-option:hover {
+  color: var(--app-primary);
+  background: var(--app-primary-soft);
+}
+
+.project-fortune-sheet .fortune-fx-editor {
+  height: 34px;
+  border-color: var(--app-border);
+  background: var(--app-panel);
+}
+
+.project-fortune-sheet .fortune-name-box-container,
+.project-fortune-sheet .fortune-fx-input-container {
+  border-color: var(--app-border);
+}
+
+.project-fortune-sheet .fortune-name-box,
+.project-fortune-sheet .fortune-fx-input {
+  color: var(--app-text);
+  background: var(--app-panel);
+  font-size: 13px;
+}
+
+.project-fortune-sheet .fortune-fx-icon,
+.project-fortune-sheet .fortune-col-header,
+.project-fortune-sheet .fortune-row-header {
+  color: var(--app-muted);
+}
+
+.project-fortune-sheet .fortune-col-header,
+.project-fortune-sheet .fortune-row-header,
+.project-fortune-sheet .fortune-left-top {
+  background: var(--app-panel-soft);
+}
+
+.project-fortune-sheet .fortune-col-header-selected,
+.project-fortune-sheet .fortune-row-header-selected {
+  border-color: var(--app-primary);
+  background: color-mix(in srgb, var(--app-primary) 10%, transparent);
+}
+
+.project-fortune-sheet .luckysheet-cell-selected,
+.project-fortune-sheet .luckysheet-cell-selected-focus {
+  border-color: var(--app-primary) !important;
+  background: color-mix(in srgb, var(--app-primary) 7%, transparent) !important;
+}
+
+.project-fortune-sheet .luckysheet-cs-inner-border {
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+.project-fortune-sheet .luckysheet-cs-fillhandle {
+  border-color: var(--app-panel) !important;
+  background: var(--app-primary) !important;
+}
+
+.project-fortune-sheet .luckysheet-input-box {
+  z-index: 20 !important;
+  box-sizing: border-box;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  color: var(--app-text);
+  background: transparent !important;
+  font-family: inherit;
+}
+
+.project-fortune-sheet .luckysheet-input-box-inner {
+  display: flex !important;
+  align-items: center !important;
+  box-sizing: border-box;
+  margin: 0 !important;
+  padding: 0 2px !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  color: var(--app-text);
+  background: var(--app-panel) !important;
+  font: normal normal normal 10pt "Helvetica Neue", Helvetica, Arial, "PingFang SC", sans-serif !important;
+}
+
+.project-fortune-sheet .luckysheet-cell-input,
+.project-fortune-sheet .luckysheet-cell-input:focus,
+.project-fortune-sheet .luckysheet-cell-input:focus-visible {
+  width: 100%;
+  height: auto !important;
+  min-height: 0 !important;
+  box-sizing: border-box;
+  padding: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  color: var(--app-text);
+  background: var(--app-panel) !important;
+  font: inherit !important;
+  line-height: normal !important;
+}

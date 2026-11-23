@@ -1,0 +1,83 @@
+@media (max-width: 767px) {
+  .sheet-editor-page__header {
+    height: 48px;
+    gap: 8px;
+    padding-inline: 8px;
+  }
+
+  .sheet-editor-page__file-icon,
+  .sheet-editor-page__file-meta {
+    display: none !important;
+  }
+
+  .sheet-editor-page__history-trigger {
+    width: 36px;
+    padding-inline: 0;
+  }
+
+  .sheet-editor-page__file-menu {
+    position: fixed;
+    top: 48px;
+    left: 8px;
+  }
+
+  .sheet-editor-page__file-menu-list {
+    max-height: min(55dvh, 360px);
+  }
+
+  .sheet-editor-workbook__actions {
+    min-height: 42px;
+    gap: 8px;
+    padding-inline: 8px;
+  }
+
+  .sheet-editor-workbook__actions > span:not(.sheet-editor-workbook__readonly) {
+    max-width: 42vw;
+  }
+
+  .sheet-editor-workbook__actions button {
+    min-width: 64px;
+    height: 34px;
+  }
+
+  .sheet-editor-workbook__history {
+    position: fixed;
+    inset: auto 0 0 0;
+    width: 100%;
+    max-height: min(72dvh, 560px);
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    box-shadow: 0 -8px 24px rgb(15 23 42 / 12%);
+  }
+
+  .sheet-editor-workbook__history-list {
+    max-height: calc(min(72dvh, 560px) - 44px);
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+
+  .sheet-editor-workbook .fortune-toolbar {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .sheet-editor-workbook .fortune-toolbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sheet-editor-workbook .fortune-toolbar-button,
+  .sheet-editor-workbook .fortune-toolbar-combo,
+  .sheet-editor-workbook .fortune-toolbar-divider {
+    flex: 0 0 auto;
+  }
+
+  .sheet-editor-workbook .fortune-fx-editor {
+    min-height: 34px;
+  }
+
+  .sheet-editor-workbook .fortune-sheet-tab-container {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

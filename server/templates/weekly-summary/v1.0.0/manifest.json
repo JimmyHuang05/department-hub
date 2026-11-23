@@ -1,0 +1,33 @@
+{
+  "id": "weekly-summary",
+  "version": "1.0.0",
+  "label": "联衡信托全球资本运营部工作小结模板",
+  "sourceSha256": "cc7c742662e01288e485a8b43e046152705ab49f219dfb5595141870df98b975",
+  "modelVersion": 1,
+  "page": {
+    "orientation": "landscape",
+    "widthInches": 11.69,
+    "heightInches": 8.27,
+    "marginsInches": {
+      "top": 1.25,
+      "right": 1,
+      "bottom": 1.25,
+      "left": 1
+    }
+  },
+  "tables": {
+    "problemProjects": 0,
+    "pipelineProjects": 1,
+    "fixedIncome": 2,
+    "optionSeries": 3,
+    "equitySeries": 4,
+    "serviceProjects": 5
+  },
+  "preserveParts": [
+    "word/styles.xml",
+    "word/theme/theme1.xml",
+    "word/numbering.xml",
+    "word/fontTable.xml",
+    "word/webSettings.xml"
+  ]
+}
